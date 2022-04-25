@@ -12,11 +12,11 @@
         @Html.TextBoxFor(d => d.Title, "", new { @class = "form-control" })
         @Html.ValidationMessageFor(d => d.Title, null, new { @class = "text-danger" }) <br />
         @Html.LabelFor(d => d.Images)
-        <input type="file" accept=".jpeg" name="image1" id="image1" class="form-control" style="width: 100%;"/>
+        <input type="file" accept=".jpeg" required name="image1" id="image1" class="form-control" style="width: 100%;" />
         @Html.ValidationMessageFor(d => d.Images, null, new { @class = "text-danger" }) <br />
         @Html.LabelFor(d => d.Body)
         @Html.TextAreaFor(d => d.Body, new { @class = "form-control" })
-        @Html.ValidationMessageFor(d => d.Body, null, new { @class="text-danger" })<br/>
+        @Html.ValidationMessageFor(d => d.Body, null, new { @class = "text-danger" })<br />
 
         <br />
         <div style="text-align: right;">
