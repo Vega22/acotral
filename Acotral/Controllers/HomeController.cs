@@ -20,7 +20,7 @@ namespace Acotral.Controllers
         {
             _logger = logger;
         }
-
+        //HOME VIEW
         public IActionResult Index()
         {
             List<News> listNews = new List<News>();
@@ -34,17 +34,19 @@ namespace Acotral.Controllers
             return View(listNews);
         }
 
+        //GET NEW VIEW 
         public ActionResult New()
         {
             return View("New");
         }
-       
+
+        //POST NEW NEWS
         [HttpPost]
         public async Task<ActionResult> New(News model, List<IFormFile> image1 )
         {
             try
             {               
-
+                //IF MODEL IS VALID
                 if (ModelState.IsValid)
                 {
                     using(var context = new testContext())
@@ -55,13 +57,17 @@ namespace Acotral.Controllers
                             {
                                 using (var stream = new MemoryStream())
                                 {
+                                    //SAVE IMAGE IN MODEL
                                     await item.CopyToAsync(stream);
                                     model.Images = stream.ToArray();
                                 }
                             }
                         }
+                        //CURRENT DATETIME
                         model.Dates = DateTime.Now;
+                        //ADD NEW VALUE
                         context.News.Add(model);
+                        //SAVE CHANGES
                         context.SaveChanges();
                     }
                     return Redirect("/Home");
@@ -76,6 +82,7 @@ namespace Acotral.Controllers
             }
         }
 
+        //CONVERT STRING TO BYTE[]
         static byte[] GetBytes(string str)
         {
             byte[] bytes = new byte[str.Length * sizeof(char)];
@@ -83,11 +90,13 @@ namespace Acotral.Controllers
             return bytes;
         }
 
+        //GET UPDATE
         public ActionResult Update(int Id)
         {
             News model = new News();
             using(var context = new testContext())
             {
+                //SEARCH NEWS
                 var oNews = context.News.Find(Id);
                 model.Title = oNews.Title;
                 model.Body = oNews.Body;
@@ -99,7 +108,7 @@ namespace Acotral.Controllers
 
             return View(model);
         }
-
+        //POST UPDATE
         [HttpPost]
         public async Task<ActionResult> Update(News model, List<IFormFile> image1)
         {
@@ -136,6 +145,7 @@ namespace Acotral.Controllers
             }
         }
 
+        //GET DELETE
         public ActionResult Delete(int Id)
         {
             DeleteViewModel oDelete = new DeleteViewModel();
@@ -143,6 +153,7 @@ namespace Acotral.Controllers
             return View(oDelete);
         }
 
+        //POST DELETE
         [HttpPost]
         public ActionResult Delete(DeleteViewModel model)
         {
@@ -156,6 +167,7 @@ namespace Acotral.Controllers
 
         }
 
+        //LIST NEWS VIEW
         public IActionResult News(int Id)
         {
             List<News> listNews = new List<News>();
@@ -163,6 +175,7 @@ namespace Acotral.Controllers
             {
                 foreach (var post in context.News.ToList())
                 {
+                    //SHOW ONLY IF VISIBLE = TRUE
                     if(post.Visible == true)
                     {
                         listNews.Add(post);

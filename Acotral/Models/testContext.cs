@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 
 #nullable disable
 
@@ -22,10 +24,18 @@ namespace Acotral.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            var configuration = GetConfiguration();
+            string con = (configuration.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=camilosqldatabase.database.windows.net; Database=test; User=camilo;password=Semi1848;");
+                optionsBuilder.UseSqlServer(con);
             }
+        }
+
+        public IConfigurationRoot GetConfiguration()
+        {
+            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            return builder.Build();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
