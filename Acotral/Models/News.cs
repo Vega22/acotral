@@ -11,6 +11,7 @@ namespace Acotral.Models
     public partial class News
     {
         public int Id { get; set; }
+        [Required(ErrorMessage ="Debe ingresar una imagen.")]
         public byte[] Images { get; set; }
         public DateTime? Dates { get; set; }
         [Required(ErrorMessage ="Por favor ingrese el Titulo.")]
