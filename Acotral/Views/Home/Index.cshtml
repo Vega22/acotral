@@ -1,0 +1,75 @@
+﻿@model List<Acotral.Models.News> 
+@{
+    ViewData["Title"] = "Noticias";
+    ViewBag.Title = "Noticias";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewBag.Title</h1>    
+</div>
+
+<div class="row" style="text-align:right; padding:5px;">
+    <a href="~/Home/New" class="btn btn-primary">Crear Noticia</a> 
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Imagen
+                </th>
+                <th>
+                    Titulo
+                </th>
+                <th>
+                    Cuerpo
+                </th>
+                <th>
+                    Fecha
+                </th>
+                <th>
+                    Visible
+                </th>
+                <th>
+                    Acciones
+                </th>
+            </tr>
+            <!--Print data-->
+            @foreach(var oElement in Model)
+            {
+                <tr>
+                    <td>
+                        @oElement.Id
+                    </td>
+                    <td>
+                        @{
+                            var base64 = Convert.ToBase64String(oElement.Images);
+                            var imgSrc = string.Format(@"data:image/jpeg;base64, "+ base64);
+                        }
+                        <img src="@imgSrc" style="max-width: 100px; max-height: 100px;"/>
+                    </td>
+                    <td>
+                        @oElement.Title
+                    </td>
+                    <td>
+                        @oElement.Body
+                    </td>
+                    <td>
+                        @oElement.Dates
+                    </td>
+                    <td>
+                        @oElement.Visible
+                    </td>
+                    <td>
+                        <a class="btn btn-default" href="~/Home/Update/@oElement.Id">Editar</a>
+                        <a class="btn btn-danger" onclick="return confirm('¿Está seguro que quiere eliminar esta noticia?)" href="~/Home/Delete/@oElement.Id">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

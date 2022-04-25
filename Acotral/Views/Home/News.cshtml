@@ -1,0 +1,50 @@
+﻿@model List<Acotral.Models.News>
+
+@{
+    ViewBag.Title = "Noticias";
+}
+
+<h2>@ViewBag.Title</h2>
+<table id="newsTable" class="table table-fluid">
+    <tbody>
+        @for (int i = (Convert.ToInt32(ViewBag.Index) * 5); i < (Convert.ToInt32(ViewBag.Index) + 1) * 5; i++)
+        {
+            if(i >= Convert.ToInt32(ViewBag.Total))
+            {
+                break;
+            }
+            <tr>
+                @{
+                    var base64 = Convert.ToBase64String(Model[i].Images);
+                    var imgSrc = string.Format(@"data:image/jpeg;base64, " + base64);
+                }
+                <td style="width: 40%">
+                    <img src="@imgSrc" style="max-width: 100%;" />
+                </td>
+                <td>
+                    <h3>@Model[i].Title</h3>
+                    <p>@Model[i].Dates</p>
+                    <h5>@Model[i].Body</h5>
+                </td>
+            </tr>
+
+        }
+
+    </tbody>
+</table>
+
+<nav aria-label="...">
+    <ul class="pagination pagination-sm">
+        @{
+            int totalPagination = (Convert.ToInt32(ViewBag.Total) / 5);
+            if((Convert.ToInt32(ViewBag.Total) % 5 != 0)){
+                totalPagination++;
+            }
+        }
+        @for(int i = 0; i < totalPagination; i++)
+            {                
+                <li class="page-item"><a class="page-link" href="~/Home/News/@(i)"> @(i + 1) </a></li>
+            }
+        
+    </ul>
+</nav>

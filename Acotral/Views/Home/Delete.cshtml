@@ -1,0 +1,20 @@
+﻿@model Acotral.Models.DeleteViewModel
+@{
+    ViewBag.Title = "Eliminar";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h4>¿Está seguro que desea eliminar esta noticia?</h4>
+
+
+@using (Html.BeginForm("Delete", "Home", FormMethod.Post))
+{
+    <div class="row">
+        <div>
+            @Html.HiddenFor(d => d.Id)
+            <a href="~/Home" class="btn btn-primary">Cancelar</a>
+            <input value="Si" class="btn btn-danger" type="submit" />
+        </div>
+    </div>
+}

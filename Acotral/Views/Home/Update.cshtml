@@ -1,0 +1,43 @@
+﻿@model Acotral.Models.News
+@{
+    ViewBag.Title = "Actualizar";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Update", "Home", FormMethod.Post , new { enctype = "multipart/form-data" }))
+{
+    <div class="row">
+        @Html.HiddenFor(d=> d.Id)
+        @Html.HiddenFor(d=> d.Images)
+        <div class="col-md-12">
+            @Html.LabelFor(d => d.Title)
+            @Html.TextBoxFor(d => d.Title, "", new { @class = "form-control" })
+            @Html.ValidationMessageFor(d => d.Title, null, new { @class = "text-danger" }) <br />
+            @Html.LabelFor(d => d.Images)
+            @{
+                var imgSrc = "";
+                if(Model.Images != null)
+                {
+                    var base64 = Convert.ToBase64String(Model.Images);
+                    imgSrc = string.Format(@"data:image/jpeg;base64, " + base64);
+                }
+
+            }
+            <img src="@imgSrc" style="max-width: 200px; max-height: 200px;" />
+            <input type="file" name="image1" id="image1" class="form-control" style="width: 100%;" />
+            @Html.ValidationMessageFor(d => d.Images, null, new { @class = "text-danger" }) <br />
+            @Html.LabelFor(d => d.Body)
+            @Html.TextAreaFor(d => d.Body, new { @class = "form-control" })
+            @Html.ValidationMessageFor(d => d.Body, null, new { @class = "text-danger" })<br />
+            @Html.LabelFor(d => d.Visible)
+            @Html.CheckBoxFor(d => d.Visible, new { @class = "form-control" })
+            @Html.ValidationMessageFor(d => d.Visible, null, new { @class = "text-danger" })<br />
+
+            <br />
+            <div style="text-align: right;">
+                <input value="Guardar" class="btn btn-primary" type="submit" />
+            </div>
+        </div>
+    </div>
+}
